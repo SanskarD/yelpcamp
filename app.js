@@ -2,8 +2,6 @@ if(process.env.NODE_ENV !== "production"){
   require('dotenv').config()
 }
 
-
-
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -26,8 +24,9 @@ const mongoSanitize = require('express-mongo-sanitize')
 
 const helmet = require('helmet')
 
-const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp"
-const secret = process.env.SECRET || "whathellohello"
+const dbUrl = process.env.DB_URL
+const secret = process.env.SECRET
+
 mongoose.set("strictQuery", false);
 mongoose
   .connect(dbUrl, {
@@ -86,7 +85,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   console.log(req.query)
-  res.locals.currentUser = req.user || undefined
+  res.locals.currentUser = req.user
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();

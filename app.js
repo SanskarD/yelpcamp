@@ -84,8 +84,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  console.log(req.query)
-  res.locals.currentUser = req.user
+  res.locals.currentUser = req.user || null
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -95,14 +94,6 @@ app.use("/campgrounds/:id/reviews", reviewRoute);
 app.use("/", userRoute);
 
 
-app.get("/fakeUser", async (req, res) => {
-  const user = new User({
-    email: "helllo2@gmail.com",
-    username: "test2"
-  });
-  const newUser = await User.register(user,"1234")
-  res.send(newUser)
-});
 
 app.get("/", (req, res) => {
   res.render("home");
